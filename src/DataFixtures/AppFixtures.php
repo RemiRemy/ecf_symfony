@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Produit;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -20,6 +21,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create();
+        $tableauImage = ["boat1.jpg", "boat2.jpg", "boat3.jpg", "boat4.jpg", "boat5.jpg", "boat6.jpg", "boat7.jpg", "boat8.jpg", "boat9.jpg", "boat10.jpg", "boat11.jpg", "boat12.jpg", "boat13.jpg", "boat14.jpg", "boat15.jpg"];
 
 
         // ----------------------------CREATION USERS----------------------
@@ -40,6 +42,20 @@ class AppFixtures extends Fixture
         $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, "azerty"));
 
         $manager->persist($utilisateur);
+
+
+        // ----------------------------CREATION PRODUIT-------------------------------
+
+        for ($i = 0; $i < 18; $i++) {
+
+            $produit = new Produit();
+            $produit->setNom('bateau "' . $faker->sentence(3) . '"')
+                ->setDescription($faker->text(1000))
+                ->setPrix($faker->randomFloat(2, 10000, 250000))
+                ->setPhoto($faker->randomElement($tableauImage));
+
+            $manager->persist($produit);
+        }
 
         $manager->flush();
     }

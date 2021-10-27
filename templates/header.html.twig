@@ -9,43 +9,62 @@
 
 			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				<li>
-					<a href="#" class="nav-link px-2 link-secondary">Overview</a>
+					<a href="{{path('accueil')}}" class="nav-link px-2 link-secondary">Accueil</a>
 				</li>
 				<li>
-					<a href="#" class="nav-link px-2 link-dark">Inventory</a>
+					<a href="#" class="nav-link px-2 link-dark">Nos Occassions</a>
 				</li>
-				<li>
-					<a href="#" class="nav-link px-2 link-dark">Customers</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link px-2 link-dark">Products</a>
-				</li>
+				{# Pour afficher le lien vers admin quand il a le role admin   #}
+				{# permet de ne pas planté si la personne n'est pas connecté #}
+				{% if app.user and ('ROLE_ADMIN' in app.user.roles) %}
+					<li>
+						<a href="{{path('admin')}}" class="nav-link px-2 link-dark">
+							Admin</a>
+					</li>
+				{% endif %}
+
+				{# Permet de vérifier si la personne n'est pas connectée  #}
+				{% if app.user == null %}
+					<li>
+						<a href="{{path('app_login')}}" class="nav-link px-2 link-dark">Connexion</a>
+					</li>
+					<li>
+						<a href="{{path('inscription')}}" class="nav-link px-2 link-dark">Inscription</a>
+					</li>
+				{% endif %}
 			</ul>
+
+			<a href="{{path('panier')}}" class="btn btn-primary">
+				Panier
+			</a>
 
 			<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
 				<input type="search" class="form-control" placeholder="Search..." aria-label="Search">
 			</form>
 
-			<div class="dropdown text-end">
-				<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-					<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-				</a>
-				<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-					<li>
-						<a class="dropdown-item" href="#">New project...</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Settings</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Profile</a>
-					</li>
-					<li><hr class="dropdown-divider"></li>
-					<li>
-						<a class="dropdown-item" href="#">Sign out</a>
-					</li>
-				</ul>
-			</div>
+			{# Si la personne est connecté  #}
+			{% if app.user %}
+				<div class="dropdown text-end">
+					<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+						<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+					</a>
+					<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+						<li>
+							<a class="dropdown-item" href="#">New project...</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Settings</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Profile</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item" href="{{path('app_logout')}}">Se déconnecter</a>
+						</li>
+					</ul>
+				</div>
+			{% endif %}
 		</div>
 	</div>
 </header>
