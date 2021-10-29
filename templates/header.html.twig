@@ -21,6 +21,10 @@
 						<a href="{{path('admin')}}" class="nav-link px-2 link-dark">
 							Admin</a>
 					</li>
+					<li>
+						<a href="{{path('admin_user')}}" class="nav-link px-2 link-dark">Modification rôle</a>
+					</li>
+
 				{% endif %}
 
 				{# Permet de vérifier si la personne n'est pas connectée  #}
@@ -31,6 +35,8 @@
 					<li>
 						<a href="{{path('inscription')}}" class="nav-link px-2 link-dark">Inscription</a>
 					</li>
+
+
 				{% endif %}
 			</ul>
 

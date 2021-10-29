@@ -78,7 +78,14 @@
 					{% for produit in listeProduit %}
 						<div class="col">
 							<div class="card shadow-sm">
-								<img style="height: 225px; width:100%" src="/uploads/{{produit.photo}}" alt="">
+								<div class="" style="position:relative">
+									<div class="" style="position:absolute">
+										{% for libelle in produit.libelles %}
+											<span class="badge" style="background-color:#{{libelle.couleur}}">{{libelle.nom}}</span>
+										{% endfor %}
+									</div>
+									<img style="height:225px; width:100%" src="/uploads/{{produit.photo}} ">
+								</div>
 
 								<div class="card-body">
 									<h4 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{produit.nom}}</h4>

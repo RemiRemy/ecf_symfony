@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Categorie;
+use App\Entity\Libelle;
 use App\Entity\Produit;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -44,6 +46,43 @@ class AppFixtures extends Fixture
         $manager->persist($utilisateur);
 
 
+        // --------------------------CREATION CATEGORIE----------------------------
+
+        $categorie = new Categorie();
+        $categorie->setType('voilier');
+        $manager->persist($categorie);
+
+        $categorie = new Categorie();
+        $categorie->setType('semi-rigide');
+        $manager->persist($categorie);
+
+        $categorie = new Categorie();
+        $categorie->setType('vedette');
+        $manager->persist($categorie);
+
+
+        // ----------------------création des libellés ----------------------
+
+        $libellePromotion = new Libelle();
+        $libellePromotion->setNom("Promo");
+        $libellePromotion->setCouleur("FF0000");
+
+        $manager->persist($libellePromotion);
+
+        $libelleEco = new Libelle();
+        $libelleEco->setNom("Eco-responsable");
+        $libelleEco->setCouleur("57CC57");
+
+        $manager->persist($libelleEco);
+
+        $libelleBestSeller = new Libelle();
+        $libelleBestSeller->setNom("Best seller");
+        $libelleBestSeller->setCouleur("FF8800");
+
+        $manager->persist($libelleBestSeller);
+
+        $listeLibelle = [$libellePromotion, $libelleEco, $libelleBestSeller];
+
         // ----------------------------CREATION PRODUIT-------------------------------
 
         for ($i = 0; $i < 18; $i++) {
@@ -52,7 +91,15 @@ class AppFixtures extends Fixture
             $produit->setNom('bateau "' . $faker->sentence(3) . '"')
                 ->setDescription($faker->text(1000))
                 ->setPrix($faker->randomFloat(2, 10000, 250000))
-                ->setPhoto($faker->randomElement($tableauImage));
+                ->setPhoto($faker->randomElement($tableauImage))
+                ->setCategorie($categorie);
+
+            $nombreDeLibelle = $faker->numberBetween(0, 3);
+
+            for ($j = 0; $j < $nombreDeLibelle; $j++) {
+                $libellePrisAuHasard = $faker->randomElement($listeLibelle);
+                $produit->addLibelle($libellePrisAuHasard);
+            }
 
             $manager->persist($produit);
         }

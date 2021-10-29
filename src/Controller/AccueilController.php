@@ -13,8 +13,8 @@ class AccueilController extends AbstractController
     public function index(ProduitRepository $repo): Response
     {
 
-        $listeProduit = $repo->findAll();
-
+        $listeProduit = $repo->findAllJoinLibelle();
+        dump($listeProduit);
         return $this->render('accueil/index.html.twig', [
             'listeProduit' => $listeProduit,
         ]);

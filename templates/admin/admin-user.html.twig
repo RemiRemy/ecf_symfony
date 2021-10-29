@@ -1,0 +1,72 @@
+{% extends 'base-admin.html.twig' %}
+
+
+{% block title %}
+
+	Administration Rôle
+
+{% endblock %}
+{% block javascripts %}
+	<script src="/assets/js/check.js"></script>
+{% endblock %}
+
+
+{% block body %}
+
+
+	<h1>Gestion des Admins</h1>
+
+
+	{# **********************************setting user admin**************************** #}
+
+	<table class="table">
+
+		<thead>
+
+			<tr>
+
+				<th>ID</th>
+
+				<th>Nom</th>
+
+				<th>Prenom</th>
+
+				<th>E-mail</th>
+
+				<th>Rôle</th>
+
+				<th>Modifier rôle</th>
+
+			</tr>
+
+		</thead>
+
+		<tbody>
+
+			{% for user in detailUser %}
+				{% if app.user.id != user.id %}
+
+					<tr>
+						<td>{{user.id}}</td>
+						<td>{{user.nom}}</td>
+						<td>{{user.prenom}}</td>
+						<td>{{user.email}}</td>
+						<td>
+							{% for role in user.roles %}
+								{{role}}
+							{% endfor %}
+						</td>
+						<td>
+							<div>
+								<label for="role">Admin</label>
+
+								<input class="checkboxRole" type="checkbox" id="role-{{user.id}}" {% if "ROLE_ADMIN" in user.roles %} checked {% endif %}>
+							</div>
+						</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</tbody>
+
+	</table>
+{% endblock %}

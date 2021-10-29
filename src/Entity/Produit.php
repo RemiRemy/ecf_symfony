@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,21 @@ class Produit
      * @ORM\Column(type="text", nullable=true)
      */
     private $fiche_technique;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="produits")
+     */
+    private $categorie;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Libelle::class, mappedBy="libelle")
+     */
+    private $libelles;
+
+    public function __construct()
+    {
+        $this->libelles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +137,45 @@ class Produit
     public function setFicheTechnique(?string $fiche_technique): self
     {
         $this->fiche_technique = $fiche_technique;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Libelle[]
+     */
+    public function getLibelles(): Collection
+    {
+        return $this->libelles;
+    }
+
+    public function addLibelle(Libelle $libelle): self
+    {
+        if (!$this->libelles->contains($libelle)) {
+            $this->libelles[] = $libelle;
+            $libelle->addLibelle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLibelle(Libelle $libelle): self
+    {
+        if ($this->libelles->removeElement($libelle)) {
+            $libelle->removeLibelle($this);
+        }
 
         return $this;
     }
